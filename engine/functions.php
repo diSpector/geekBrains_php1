@@ -1,102 +1,94 @@
 <?php
 
-//Константы ошибок
-define('ERROR_NOT_FOUND', 1);
-define('ERROR_TEMPLATE_EMPTY', 2);
-
-/*
-* Обрабатывает указанный шаблон, подставляя нужные переменные
-*/
-function render($file, $variables = [])
+/**
+ * Записываем лог в файл /var/logs_{$suffix}.log
+ * @param mixed  $s
+ * @param string $suffix
+ *
+ * @return mixed|string
+ */
+function _log($s, $suffix = '')
 {
-    if (!is_file($file)) { // если первый аргумент - не файл, завершить с ошибкой
-      	echo 'Template file "' . $file . '" not found';
-      	exit(ERROR_NOT_FOUND);
+    if (is_array($s) || is_object($s)) {
+        $s = print_r($s, 1);
     }
 
-    if (filesize($file) === 0) { // если файл пустой, завершить с ошибкой
-      	echo 'Template file "' . $file . '" is empty';
-      	exit(ERROR_TEMPLATE_EMPTY);
+    $s = '### '.date('d.m.Y H:i:s')."\r\n".$s."\r\n\r\n\r\n";
+
+    if ($suffix !== '') {
+        $suffix = '_'.$suffix;
     }
 
-    // если переменных для подстановки не указано, просто
-    // возвращаем шаблон как есть
-    if (empty($variables)) {
-	      $templateContent = file_get_contents($file);
-    } else {
-      	$templateContent = file_get_contents($file);
-      	foreach ($variables as $key => $value) {
-              if ($value != null) {
-    	        // собираем ключи
-              $key = '{{' . strtoupper($key) . '}}';
+    _writeToFile(VAR_DIR. 'logs'.$suffix.'.log', $s, 'a+');
 
-          		// заменяем ключи на значения в теле шаблона
-          		$templateContent = str_replace($key, $value, $templateContent);
-	            }
-         }
-    }
-
-    return $templateContent;
+    return $s;
 }
 
-function _log($s, $suffix='')
-	{
-		if (is_array($s) || is_object($s)) $s = print_r($s, 1);
-		$s="### ".date("d.m.Y H:i:s")."\r\n".$s."\r\n\r\n\r\n";
+/**
+ * Записывает контент в переданный файл
+ * нужные директории создаются автоматически
+ * @param string $fileName
+ * @param string $content
+ * @param string $mode
+ *
+ * @return bool
+ */
+function _writeToFile($fileName, $content, $mode = 'w')
+{
+    $dir = mb_substr($fileName, 0, strrpos($fileName, '/'));
 
-		if (mb_strlen($suffix))
-			$suffix = "_".$suffix;
-			
-		      _writeToFile($_SERVER['DOCUMENT_ROOT']."/_log/logs".$suffix.".log",$s,"a+");
+    if (!is_dir($dir)) {
+        _makeDir($dir);
+    }
 
-		return $s;
-	}
+    if ($mode !== 'r') {
+        $fh = fopen($fileName, $mode);
+        if (fwrite($fh, $content)) {
+            fclose($fh);
+            @chmod($fileName, 0644);
 
-function _writeToFile($fileName, $content, $mode="w")
-	{
-		$dir=mb_substr($fileName,0,strrpos($fileName,"/"));
-		if (!is_dir($dir))
-		{
-			_makeDir($dir);
-		}
+            return true;
+        }
+    }
 
-		if($mode != "r")
-		{
-			$fh=fopen($fileName, $mode);
-			if (fwrite($fh, $content))
-			{
-				fclose($fh);
-				@chmod($fileName, 0644);
-				return true;
-			}
-		}
+    return false;
+}
 
-		return false;
-	}
-
+/**
+ * Создание директории
+ * @param string $dir
+ * @param bool   $is_root
+ * @param string $root
+ *
+ * @return bool|string
+ */
 function _makeDir($dir, $is_root = true, $root = '')
 {
-    $dir = rtrim($dir, "/"); // удалить слэш из конца строки
-    if (is_dir($dir)) return true; // Возвращает TRUE, если файл $dir существует и является директорией, иначе возвращается FALSE.
-    if (mb_strlen($dir) <= mb_strlen($_SERVER['DOCUMENT_ROOT']))
+
+    $dir = rtrim($dir, '/');
+    if (is_dir($dir)) {
         return true;
-    if (str_replace($_SERVER['DOCUMENT_ROOT'], "", $dir) == $dir)
-        return true;
+    }
 
     if ($is_root) {
-        $dir = str_replace($_SERVER['DOCUMENT_ROOT'], '', $dir);
+        $dir  = str_replace($_SERVER['DOCUMENT_ROOT'], '', $dir);
         $root = $_SERVER['DOCUMENT_ROOT'];
     }
     $dir_parts = explode("/", $dir);
 
     foreach ($dir_parts as $step => $value) {
-        if ($value != '') {
-            $root = $root . "/" . $value;
+        if ($value !== '') {
+            $root = $root.'/'.$value;
             if (!is_dir($root)) {
-                mkdir($root, 0755);
+                if (!mkdir($root, 0755) && !is_dir($root)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $root));
+                }
                 chmod($root, 0755);
             }
         }
     }
+
     return $root;
 }
+
+?>
