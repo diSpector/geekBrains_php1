@@ -1,0 +1,39 @@
+html, body {
+    font-family: sans-serif;
+}
+h1{
+    text-align: center;
+    font-family: sans-serif;
+}
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1000px;
+    justify-content: space-around;
+}
+
+.gallery img{
+    margin-bottom: 10px;
+    max-height: 136px;
+}
+
+.product {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.product img {
+    display: block;
+    margin: 0 auto;
+}
+
+.product p, .error h1  {
+    text-align: center;
+}
+
+.product a,  .error a{
+    display: block;
+    text-align: center;
+}
+
