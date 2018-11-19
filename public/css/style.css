@@ -1,0 +1,221 @@
+html, body {
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.index {
+    margin: 0 auto;
+    max-width: 1000px;
+    display: flex;
+}
+
+.index a {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1000px;
+    /*justify-content: space-around;*/
+}
+
+.product_card {
+    margin-bottom: 20px;
+    border: 1px solid lightgrey;
+
+}
+
+.product_card img {
+    display: block;
+    margin-bottom: 0;
+}
+
+.product_title {
+    padding: 10px;
+    text-align: center;
+}
+
+.gallery a {
+    text-decoration: none;
+    color: black;
+}
+
+.product_card:hover {
+    -webkit-box-shadow: 0px 0px 6px 4px rgba(255, 244, 192, 0.68);
+    box-shadow: 0px 0px 6px 4px rgba(255, 244, 192, 0.68);
+}
+
+.product {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.product img {
+    display: block;
+    margin: 0 auto;
+}
+
+.product p, .error h1 {
+    text-align: center;
+}
+
+.product a, .error a {
+    display: block;
+    text-align: center;
+}
+
+.product .desc {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+.reviews {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.reviews a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin: 10px auto;
+}
+
+.btn_add {
+    text-decoration: none;
+}
+.btn_add {
+    display: block;
+    box-sizing: border-box;
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: orange;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+}
+
+.review, .review_admin {
+    background-color: lightgrey;
+    max-width: 500px;
+    border-radius: 5px;
+    margin: 0 auto 20px auto;
+    box-sizing: border-box;
+}
+
+.reviewText {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.reviewAuthor {
+    font-style: italic;
+    text-align: right;
+    padding: 10px;
+}
+
+.addreview, .editreview, .editproduct {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.addreview a {
+    display: block;
+    margin: 10px auto;
+    max-width: 200px;
+    padding: 10px;
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+h3 {
+    font-size: 25px;
+}
+
+input, textarea {
+    font-size: 14px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #E9EFF6;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 10px;
+    border-style: solid;
+}
+
+input[type = "submit"] {
+    background-color: orange;
+    line-height: 30px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+input[type = "submit"]:hover {
+    background-color: darkorange;
+}
+
+select {
+    width: 100%;
+}
+
+.admin_panel {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.admin_panel a{
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.review_link{
+    max-width: 500px;
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.review_admin{
+    margin: 30px auto 10px auto;
+}
+
+.btn_delete{
+    display: block;
+    padding: 10px;
+    background-color: red;
+    border-radius: 5px;
+    color: black;
+    max-width: 100px;
+    margin: 50px auto 50px auto;
+    text-decoration: none;
+}
+
+.lonely_link{
+    display: block;
+    max-width: 300px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.editproduct form{
+    max-width: 1000px;
+}
